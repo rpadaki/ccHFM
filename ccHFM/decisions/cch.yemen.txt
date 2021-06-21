@@ -126,12 +126,26 @@ political_decisions = {
 			OR = { 
 				1175 = {                                     #Ghayda
 					owner = {
-						NOT = { in_sphere = THIS }
+						civilized = no
+						NOT = {
+							OR = {
+								has_country_flag = cch.accepted-yemen
+								has_country_flag = cch.rejected-yemen
+							}
+							tag = YEM
+						}
 					}
 				}
 				1173 = {                                     #Mukalla
 					owner = {
-						NOT = { in_sphere = THIS }
+						civilized = no
+						NOT = {
+							OR = {
+								has_country_flag = cch.accepted-yemen
+								has_country_flag = cch.rejected-yemen
+							}
+							tag = YEM
+						}
 					}
 				}
 			}
@@ -150,18 +164,32 @@ political_decisions = {
 				}
 			}
 			OR = {
-				KTH = {
-					exists = yes
-					part_of_sphere = no
-					NOT = {
-						has_country_flag = cch.rejected-yemen
+				1173 = {
+					owner = {
+						OR = { 
+							part_of_sphere = no
+							in_sphere = THIS
+						}
+						NOT = {
+							OR = {
+								has_country_flag = cch.accepted-yemen
+								has_country_flag = cch.rejected-yemen
+							}
+						}
 					}
 				}
-				MHR = {
-					exists = yes
-					part_of_sphere = no
-					NOT = {
-						has_country_flag = cch.rejected-yemen
+				1175 = {
+					owner = {
+						OR = { 
+							part_of_sphere = no
+							in_sphere = THIS
+						}
+						NOT = {
+							OR = {
+								has_country_flag = cch.accepted-yemen
+								has_country_flag = cch.rejected-yemen
+							}
+						}
 					}
 				}
 			}
@@ -170,14 +198,16 @@ political_decisions = {
 		effect = {
 			set_country_flag = cch.pestered-yemen
 			set_country_flag = cch.attempted-yemen
-			random_country = {
+			any_country = {
 				limit = {
 					OR = {
-						tag = KTH
-						tag = MHR
+						owns = 1175
+						owns = 1173
 					}
-					exists = yes
-					part_of_sphere = no
+					OR = { 
+						part_of_sphere = no
+						in_sphere = THIS
+					}
 				}
 				country_event = { id = 300008 days = 3 }
 			}
@@ -265,6 +295,7 @@ political_decisions = {
 				FDL = { civilized = no }
 				FDL = { exists = no }
 			}
+			YEM = { exists = no }
 		}
 		
 		allow = {
@@ -328,12 +359,10 @@ political_decisions = {
 	cch.petition-for-yemen {
 		picture = aden_protectorate
 		potential = {
+			is_vassal = no
 			OR = {
 				tag = KTH
 				tag = MHR
-			}
-			NOT = {
-				num_of_cities = 2
 			}
 			YEM = { exists = yes }
 		}
@@ -342,20 +371,40 @@ political_decisions = {
 			war = no
 			civilized = no
 			year = 1895
-			OR = {
-				NOT = {
-					total_amount_of_divisions = 1
-				}
-				part_of_sphere = no
-				average_militancy = 9
-			}
 		}
 		
 		effect = {
-			YEM = { country_event = { id = 300019 days = 1 } }
+			YEM = { country_event = { id = 300019 days = 0 } }
 		}
 		
-		ai_will_do = { factor = 0.75 }
+		ai_will_do = {
+			factor = 0.75
+			modifier = {
+				factor = 0
+				stronger_army_than = YEM
+			}
+			modifier = {
+				factor = 0
+				YEM = {
+					NOT = {
+						total_amount_of_divisions = 1
+					}
+				}
+			}
+			modifier = {
+				factor = 0
+				YEM = {
+					average_militancy = 6
+				}
+			}
+			modifier = {
+				factor = 1
+				random_country = {
+					is_sphere_leader_of = YEM
+					is_sphere_leader_of = THIS
+				}
+			}
+		}
 	}
 	
 	cch.yemen-take-this = {

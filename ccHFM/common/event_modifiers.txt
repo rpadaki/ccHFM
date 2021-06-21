@@ -3308,6 +3308,7 @@ foreign_weapons_imported = {
 cch.recent-call-to-arms = {
     icon = 15
 }
+
 cch.fadhli-raids = {
 	local_RGO_output = -0.1
 	poor_life_needs = 0.1
@@ -3320,6 +3321,7 @@ cch.raiding-aden = {
 	rich_income_modifier = 0.1
 	icon = 17
 }
+
 cch.kathiri-quaiti-conflict = {
 	pop_militancy_modifier = 0.3
 	icon = 18
